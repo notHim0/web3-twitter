@@ -1,101 +1,105 @@
+"use client";
+import { TwitterContext } from "../../context/TwitterContext";
+import Sidebar from "@/components/Sidebar";
+import Widgets from "@/components/Widgets";
+import Feed from "@/components/home/Feed";
+import { useContext } from "react";
+import metamaskLogo from "../../assets/metamask.png";
+import errorImg from "../../assets/error.png";
 import Image from "next/image";
+import { Tweets, Users } from "@/sanity/sanity.types";
 
+const style = {
+  wrapper: `flex justify-center h-screen w-screen select-none bg-[#15202b] text-white`,
+  content: `max-w-[1400px] w-2/3 flex justify-between`,
+  loginContainer: `w-full h-full flex flex-col justify-center items-center pb-48`,
+  walletConnectButton: `text-2xl text-black bg-white font-bold mb-[-3rem] mt-[3rem] px-6 py-4 rounded-full cursor-pointer hover:bg-[#d7dbdc]`,
+  loginContent: `text-3xl font-bold text-center mt-24`,
+};
+export interface TwitterContextTypes {
+  appStatus?: string;
+  connectWallet: Function;
+  tweets: Tweets[];
+  currentAccount: string;
+  fetchTweets: Function;
+  currentUser: Users;
+  setAppStatus: Function;
+}
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { appStatus, connectWallet } = useContext<TwitterContextTypes>(
+    TwitterContext as any
+  );
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const app = (status = appStatus) => {
+    switch (status) {
+      case "connected":
+        return userLoggedIn;
+
+      case "notConnected":
+        return noUserFound;
+
+      case "noMetaMask":
+        return noMetaMaskFound;
+
+      case "error":
+        return error;
+
+      default:
+        return loading;
+    }
+  };
+
+  const userLoggedIn = (
+    <div className={style.content}>
+      <Sidebar initialSelectedIcon={"Home"} />
+      <Feed />
+      <Widgets />
     </div>
   );
+
+  const noUserFound = (
+    <div className={style.loginContainer}>
+      <Image src={metamaskLogo} width={200} height={200} alt="Meta-Mask-Logo" />
+      <div
+        className={style.walletConnectButton}
+        onClick={() => connectWallet()}
+      >
+        Connect Wallet
+      </div>
+      <div className={style.loginContent}>Connect to Metamask.</div>
+    </div>
+  );
+
+  const noMetaMaskFound = (
+    <div className={style.loginContainer}>
+      <Image src={metamaskLogo} width={200} height={200} alt="Meta-Mask-Logo" />
+      <div className={style.loginContent}>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href={`https://metamask.io/download.html`}
+        >
+          You must install Metamask, a <br /> virtual Ethereum wallet, in your
+          browser.
+        </a>
+      </div>
+    </div>
+  );
+
+  const error = (
+    <div className={style.loginContainer}>
+      <Image src={errorImg} width={250} height={200} alt="Error!" />
+      <div className={style.loginContent}>
+        An error occurred. Please try again later or from another browser.
+      </div>
+    </div>
+  );
+
+  const loading = (
+    <div className={style.loginContainer}>
+      <div className={style.loginContent}>Loading...</div>
+    </div>
+  );
+
+  return <div className={style.wrapper}>{app(appStatus)}</div>;
 }
