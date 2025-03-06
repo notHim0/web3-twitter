@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { TwitterContext } from "../../../context/TwitterContext";
 import Image from "next/image";
 import checkMark from "../../../assets/check.png";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const style = {
   wrapper: `h-[20rem] w-[35rem] text-white bg-[#15202b] rounded-3xl p-10 flex flex-col items-center justify-center`,
@@ -16,7 +16,7 @@ const FinishedState = () => {
 
   useEffect(() => {
     getCurrentUserDetails();
-  }, []);
+  }, [getCurrentUserDetails]);
 
   return (
     <div className={style.wrapper}>

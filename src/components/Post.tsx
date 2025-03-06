@@ -1,9 +1,9 @@
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { FaRegComment, FaRetweet } from "react-icons/fa";
-import { FaReacteurope } from "react-icons/fa6";
 import { FiShare } from "react-icons/fi";
 import { format } from "timeago.js";
+import Image from "next/image";
 
 interface PostProps {
   displayName: string;
@@ -11,7 +11,7 @@ interface PostProps {
   text: string;
   avatar: string;
   timestamp: string;
-  isProfileImageNft: Boolean | undefined;
+  isProfileImageNft: boolean | undefined;
 }
 
 const style = {
@@ -39,9 +39,11 @@ function Post({
   return (
     <div className={style.wrapper}>
       <div>
-        <img
+        <Image
           src={avatar}
           alt={userName}
+          width={40}
+          height={40}
           className={
             isProfileImageNft
               ? `${style.profileImage} smallHex`

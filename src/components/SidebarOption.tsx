@@ -12,10 +12,10 @@ const style = {
 };
 
 interface SidebarOptionProps {
-  text: String;
+  text: string;
   Icon: IconType;
-  isActive?: Boolean;
-  setSelected?: Dispatch<SetStateAction<String>>;
+  isActive?: boolean;
+  setSelected?: Dispatch<SetStateAction<string>>;
   redirect?: URL | string;
 }
 

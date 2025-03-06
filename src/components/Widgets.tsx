@@ -1,5 +1,7 @@
 import { BiSearch } from "react-icons/bi";
+import Image from "next/image";
 import { news, whoToFollow } from "../../lib/static";
+
 const style = {
   wrapper: `flex-[1] p-4`,
   searchBar: `flex items-center bg-[#243340] p-2 rounded-3xl`,
@@ -34,7 +36,7 @@ function Widgets() {
         />
       </div>
       <div className={style.section}>
-        <div className={style.title}>What's happening</div>
+        <div className={style.title}>What&apos;s happening</div>
         {news.map((item, index) => (
           <div key={index} className={style.item}>
             <div className={style.newsItemLeft}>
@@ -42,10 +44,12 @@ function Widgets() {
               <div className={style.newsItemTitle}>{item.title}</div>
             </div>
             <div className={style.newsItemRight}>
-              <img
+              <Image
                 src={item.image}
                 alt={item.category}
                 className={style.newsItemImage}
+                width={56}
+                height={56}
               />
             </div>
           </div>
@@ -57,10 +61,12 @@ function Widgets() {
         {whoToFollow.map((item, index) => (
           <div key={index} className={style.item}>
             <div className={style.followAvatarContainer}>
-              <img
+              <Image
                 src={item.avatar}
-                // alt={item.handle}
+                alt={item.handle}
                 className={style.followAvatar}
+                width={40}
+                height={40}
               />
             </div>
             <div className={style.profileDetails}>

@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-import { customStyles } from "../../../lib/constants";
 import { TwitterContextTypes } from "@/app/page";
-import { Tweets } from "@/sanity/sanity.types";
 import { TwitterContext } from "../../../context/TwitterContext";
+import Image from "next/image";
+import { Reference } from "sanity";
 
 const style = {
   wrapper: `border-[#38444d] border-b`,
@@ -28,13 +28,10 @@ interface UserData {
   profileImage?: string;
   coverImage?: string;
   walletAddress?: string;
-  tweets?: Array<any>;
-  isProfileImageNft?: Boolean | undefined;
+  tweets?: Reference[];
+  isProfileImageNft?: boolean;
 }
-const img =
-  "https://imgs.search.brave.com/HLtCepN8a9oojaj9ztEUClYxc1fZPFsFCyQtpz9TygE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jbGVh/bi5lbWFpbC91c2Vy/L3BhZ2VzL3BhcnRz/L3RhYmxlLW9mLWNv/bnRlbnRzL2ltYWdl/cy90dy5zdmc";
-const profileImg =
-  "https://images.pexels.com/photos/678783/pexels-photo-678783.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
 const ProfileHeader = () => {
   const { currentAccount, currentUser } =
     useContext<TwitterContextTypes>(TwitterContext);
@@ -44,16 +41,14 @@ const ProfileHeader = () => {
     profileImage: "",
     coverImage: "",
     walletAddress: "",
-    tweets: [],
-    isProfileImageNft: undefined,
+    isProfileImageNft: false,
   });
 
   useEffect(() => {
     if (!currentUser) {
-      console.log("no use rfound ");
+      console.log("No user found");
       return;
     }
-    console.log(currentUser);
     setUserData({
       name: currentUser.name,
       profileImage: currentUser.profileImage,
@@ -79,40 +74,46 @@ const ProfileHeader = () => {
       </div>
       <div className={style.coverPhotoContainer}>
         {userData.coverImage ? (
-          <img
+          <Image
             src={userData.coverImage}
             alt="cover"
+            width={860}
+            height={200}
             className={style.coverPhoto}
           />
         ) : (
-          "cover img"
+          "Cover Image"
         )}
       </div>
       <div className={style.profileImageContainer}>
         <div
           className={
-            currentUser.isProfileImageNft ? "hex" : style.profileImageContainer
+            currentUser?.isProfileImageNft ? "hex" : style.profileImageContainer
           }
         >
-          <img
-            src={userData.profileImage ? userData.profileImage : undefined}
-            alt={userData.walletAddress}
-            className={
-              currentUser.isProfileImageNft
-                ? style.profileImageNft
-                : style.profileImage
-            }
-          />
+          {userData.profileImage && (
+            <Image
+              src={userData.profileImage}
+              alt={userData.walletAddress || "Profile Image"}
+              width={100}
+              height={100}
+              className={
+                currentUser?.isProfileImageNft
+                  ? style.profileImageNft
+                  : style.profileImage
+              }
+            />
+          )}
         </div>
       </div>
       <div className={style.details}>
         <div>
-          <div className={style.primary}>{currentUser.name}</div>
+          <div className={style.primary}>{currentUser?.name}</div>
         </div>
         <div className={style.secondary}>
           {currentAccount && (
             <>
-              @{currentAccount.slice(0, 8)}...{currentAccount.slice(37)}
+              @{currentAccount.slice(0, 8)}...{currentAccount.slice(-4)}
             </>
           )}
         </div>

@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileTweets from "@/components/profile/ProfileTweets";
 import Sidebar from "@/components/Sidebar";
@@ -15,7 +15,9 @@ export default function Profile() {
   return (
     <div className={style.wrapper}>
       <div className={style.content}>
-        <Sidebar initialSelectedIcon={"Profile"} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Sidebar initialSelectedIcon={"Profile"} />
+        </Suspense>
         <div className={style.mainContent}>
           <ProfileHeader />
           <ProfileTweets />

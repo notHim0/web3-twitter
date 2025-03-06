@@ -17,13 +17,13 @@ const style = {
 };
 
 interface InitialStateProps {
-  profileImage: File;
-  setProfileImage: Dispatch<SetStateAction<File | undefined>>;
+  profileImage: File | null;
+  setProfileImage: Dispatch<SetStateAction<File | null>>;
   name: string;
   setName: Dispatch<SetStateAction<string>>;
   description: string;
   setDescription: Dispatch<SetStateAction<string>>;
-  mint: Function;
+  mint: () => Promise<void>;
 }
 
 const InitialState = ({

@@ -18,17 +18,18 @@ const style = {
 };
 export interface TwitterContextTypes {
   appStatus?: string;
-  connectWallet: Function;
+  connectWallet: () => Promise<void>;
   tweets: Tweets[];
   currentAccount: string;
-  fetchTweets: Function;
+  fetchTweets: () => Promise<void>;
   currentUser: Users;
-  setAppStatus: Function;
+  setAppStatus: (status: string) => void;
 }
+
 export default function Home() {
-  const { appStatus, connectWallet } = useContext<TwitterContextTypes>(
-    TwitterContext as any
-  );
+  const { appStatus, connectWallet } = useContext(
+    TwitterContext
+  ) as TwitterContextTypes;
 
   const app = (status = appStatus) => {
     switch (status) {

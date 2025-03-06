@@ -1,8 +1,8 @@
-import Link from "next/link";
+"use client";
 import { FiBell, FiMoreHorizontal } from "react-icons/fi";
 import { VscTwitter } from "react-icons/vsc";
 import SidebarOption from "./SidebarOption";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { RiFileList2Fill, RiHome7Fill, RiHome7Line } from "react-icons/ri";
 import { BiHash } from "react-icons/bi";
 import { FaBell, FaHashtag, FaRegListAlt } from "react-icons/fa";
@@ -19,6 +19,7 @@ import { TwitterContext } from "../../context/TwitterContext";
 import Modal from "react-modal";
 import ProfileImageMinter from "./mintingModal/ProfileImageMinter";
 import { customStyles } from "../../lib/constants";
+import Image from "next/image";
 
 interface SidebarProps {
   initialSelectedIcon: string;
@@ -40,7 +41,7 @@ const style = {
 };
 
 function Sidebar({ initialSelectedIcon }: SidebarProps) {
-  const [selected, setSelected] = useState<String>(initialSelectedIcon);
+  const [selected, setSelected] = useState<string>(initialSelectedIcon);
   const { currentAccount, currentUser } = useContext(TwitterContext);
 
   const router = useRouter();
@@ -57,44 +58,44 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
         <SidebarOption
           Icon={selected === "Home" ? RiHome7Fill : RiHome7Line}
           text="Home"
-          isActive={Boolean(selected === "Home")}
+          isActive={selected === "Home"}
           setSelected={setSelected}
           redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Explore" ? FaHashtag : BiHash}
           text="Explore"
-          isActive={Boolean(selected === "Explore")}
+          isActive={selected === "Explore"}
           setSelected={setSelected}
         />
         <SidebarOption
           Icon={selected === "Notifications" ? FaBell : FiBell}
           text="Notifications"
-          isActive={Boolean(selected === "Notifications")}
+          isActive={selected === "Notifications"}
           setSelected={setSelected}
         />
         <SidebarOption
           Icon={selected === "Messages" ? HiMail : HiOutlineMail}
           text="Messages"
-          isActive={Boolean(selected === "Messages")}
+          isActive={selected === "Messages"}
           setSelected={setSelected}
         />
         <SidebarOption
           Icon={selected === "Bookmarks" ? BsBookmarkFill : BsBookmark}
           text="Bookmarks"
-          isActive={Boolean(selected === "Bookmarks")}
+          isActive={selected === "Bookmarks"}
           setSelected={setSelected}
         />
         <SidebarOption
           Icon={selected === "Lists" ? RiFileList2Fill : FaRegListAlt}
           text="Lists"
-          isActive={Boolean(selected === "Lists")}
+          isActive={selected === "Lists"}
           setSelected={setSelected}
         />
         <SidebarOption
           Icon={selected === "Profile" ? BsPersonFill : BsPerson}
           text="Profile"
-          isActive={Boolean(selected === "Profile")}
+          isActive={selected === "Profile"}
           setSelected={setSelected}
           redirect={"/profile"}
         />
@@ -108,7 +109,7 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
       </div>
       <div className={style.profileButton}>
         <div className={style.profileLeft}>
-          <img
+          <Image
             src={currentUser.profileImage}
             alt="profile"
             className={

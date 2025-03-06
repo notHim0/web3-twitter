@@ -6,6 +6,8 @@ import { useContext, useState } from "react";
 import { TwitterContext } from "../../../context/TwitterContext";
 import { client } from "@/sanity/lib/client";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { TwitterContextTypes } from "@/app/page";
 
 const style = {
   wrapper: `px-4 flex flex-row border-b border-[#38444d] pb-4`,
@@ -23,10 +25,13 @@ const style = {
 
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
-  const { currentAccount, currentUser, tweets, fetchTweets } =
-    useContext(TwitterContext);
+  const { currentAccount, currentUser, fetchTweets } = useContext(
+    TwitterContext
+  ) as TwitterContextTypes;
 
-  const submitTweet = async (e: any) => {
+  const submitTweet = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (!tweetMessage) return;
 
@@ -60,12 +65,15 @@ function TweetBox() {
     await fetchTweets();
     setTweetMessage("");
   };
+
   return (
     <div className={style.wrapper}>
       <div className={style.tweetBoxLeft}>
-        <img
-          src={currentUser.profileImage}
+        <Image
+          src={currentUser.profileImage || "/assets/check.png"}
           alt="beautiful-women"
+          width={48}
+          height={48}
           className={
             currentUser.isProfileImageNft
               ? `${style.profileImage} smallHex`
@@ -74,7 +82,7 @@ function TweetBox() {
         />
       </div>
       <div className={style.tweetBoxRight}>
-        <form>
+        <form onSubmit={(e) => e.preventDefault()}>
           <textarea
             onChange={(e) => setTweetMessage(e.target.value)}
             value={tweetMessage}
@@ -93,7 +101,7 @@ function TweetBox() {
           </div>
           <button
             type="submit"
-            onClick={(event) => submitTweet(event)}
+            onClick={submitTweet}
             disabled={!tweetMessage}
             className={`${style.submitGeneral} ${
               tweetMessage ? style.activeSubmit : style.inactiveSubmit

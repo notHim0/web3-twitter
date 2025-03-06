@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import TweetBox from "./TweetBox";
 import Post from "../Post";
 import { BsStars } from "react-icons/bs";
@@ -9,10 +9,6 @@ const style = {
   header: `sticky top-0 bg-[#15202b] z-10 p-4 flex justify-between items-center`,
   headerTitle: `text-xl font-bold`,
 };
-
-interface TweetsH {
-  tweets: Tweet[];
-}
 
 interface Tweet {
   author: TweetAuthor;

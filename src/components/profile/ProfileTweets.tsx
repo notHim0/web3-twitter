@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Post from "../Post";
 import { TwitterContext } from "../../../context/TwitterContext";
 
@@ -12,10 +12,10 @@ interface Tweet {
   timestamp: string;
   tweet: string;
 }
-interface Tweets extends Array<Tweet> {}
+
 export default function ProfileTweets() {
-  const { currentUser, currentAccount, tweets } = useContext(TwitterContext);
-  const newTweets: Tweets = [...tweets];
+  const { currentUser, tweets } = useContext(TwitterContext);
+  const newTweets: Array<Tweet> = [...tweets];
   return (
     <div className={style.wrapper}>
       {newTweets?.map((tweet: Tweet, index: number) => (
