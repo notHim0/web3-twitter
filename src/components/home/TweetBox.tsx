@@ -1,3 +1,4 @@
+"use client";
 import { BsCardImage, BsEmojiSmile } from "react-icons/bs";
 import { RiFileGifLine, RiBarChartHorizontalFill } from "react-icons/ri";
 import { IoMdCalendar } from "react-icons/io";

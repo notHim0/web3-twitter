@@ -109,15 +109,21 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
       </div>
       <div className={style.profileButton}>
         <div className={style.profileLeft}>
-          <Image
-            src={currentUser.profileImage}
-            alt="profile"
-            className={
-              currentUser.isProfileImageNft
-                ? `${style.profileImage} smallHex`
-                : style.profileImage
-            }
-          />
+          {currentUser.profileImage ? (
+            <Image
+              src={currentUser.profileImage}
+              alt="profile"
+              width={48}
+              height={48}
+              className={
+                currentUser.isProfileImageNft
+                  ? `${style.profileImage} smallHex`
+                  : style.profileImage
+              }
+            />
+          ) : (
+            "Profile Image"
+          )}
         </div>
         <div className={style.profileRight}>
           <div className={style.details}>

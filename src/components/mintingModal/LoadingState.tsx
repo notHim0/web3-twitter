@@ -1,3 +1,4 @@
+"use client";
 import { GridLoader } from "react-spinners";
 import { CSSProperties } from "react";
 

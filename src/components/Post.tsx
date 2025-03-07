@@ -39,17 +39,21 @@ function Post({
   return (
     <div className={style.wrapper}>
       <div>
-        <Image
-          src={avatar}
-          alt={userName}
-          width={40}
-          height={40}
-          className={
-            isProfileImageNft
-              ? `${style.profileImage} smallHex`
-              : style.profileImage
-          }
-        />
+        {avatar ? (
+          <Image
+            src={avatar}
+            alt={userName}
+            width={40}
+            height={40}
+            className={
+              isProfileImageNft
+                ? `${style.profileImage} smallHex`
+                : style.profileImage
+            }
+          />
+        ) : (
+          "Avatar"
+        )}
       </div>
       <div className={style.postMain}>
         <div>

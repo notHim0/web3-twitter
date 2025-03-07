@@ -61,13 +61,17 @@ function Widgets() {
         {whoToFollow.map((item, index) => (
           <div key={index} className={style.item}>
             <div className={style.followAvatarContainer}>
-              <Image
-                src={item.avatar}
-                alt={item.handle}
-                className={style.followAvatar}
-                width={40}
-                height={40}
-              />
+              {item.avatar ? (
+                <Image
+                  src={item.avatar}
+                  alt={item.handle}
+                  className={style.followAvatar}
+                  width={40}
+                  height={40}
+                />
+              ) : (
+                item.handle
+              )}
             </div>
             <div className={style.profileDetails}>
               <div className={style.name}>{item.name}</div>
